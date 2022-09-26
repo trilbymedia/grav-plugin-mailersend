@@ -1,7 +1,7 @@
 name: MailerSend
 slug: mailersend
 type: plugin
-version: 0.1.0
+version: 1.0.0
 description: Send email with the MailerSend API
 icon: paper-plane-o
 author:
