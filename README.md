@@ -4,6 +4,8 @@ A plugin for sending emails via forms using the MailerSend API.
 
 The **MailerSend** Plugin is an extension for [Grav CMS](https://github.com/getgrav/grav).
 
+NOTE: Currently this works via processing Grav forms only!
+
 ## Installation
 
 Installing the MailerSend plugin can be done in one of three ways: The GPM (Grav Package Manager) installation method lets you quickly install the plugin with a simple terminal command, the manual method lets you do so via a zip file, and the admin method lets you do so via the Admin Plugin.
@@ -30,11 +32,14 @@ defaults:
   bcc:
 ```
 
-NOTE: You can create a custom permission token, but it at least needs full **Email** permissions.
+NOTE: You can create a custom permission token, but it at least needs full **Email** permissions. - https://www.mailersend.com/help/managing-api-tokens
 
 ### Form definition Example:
 
 ```yaml
+form:
+    name: test-form
+    ...
     process:
         mailersend:
           subject: "[WEB Form] {{ form.value.name|e }}" # REQUIRED
