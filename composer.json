@@ -1,0 +1,32 @@
+{
+  "name": "trilbymedia/mailersend",
+  "type": "grav-plugin",
+  "description": "Send email with the mailersend API",
+  "keywords": ["plugin"],
+  "homepage": "https://github.com/trilbymedia/grav-plugin-mailersend",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Trilby Media",
+      "email": "hello@trilby.media",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=7.4",
+    "symfony/http-client": "^4.4",
+    "mailersend/mailersend": "^0.6.0",
+    "league/html-to-markdown": "^5.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "Grav\\Plugin\\MailerSend\\": "classes/"
+    },
+    "classmap":  ["mailersend.php"]
+  },
+  "config": {
+    "platform": {
+      "php": "7.4"
+    }
+  }
+}

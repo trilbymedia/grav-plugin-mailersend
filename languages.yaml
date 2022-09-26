@@ -1,0 +1,8 @@
+en:
+  PLUGIN_MAILERSEND:
+    API_TOKEN: API Token
+    DEFAULTS: Defaults
+    TO: To/Recipient
+    FROM: From
+    CC: CC
+    BCC: BCC

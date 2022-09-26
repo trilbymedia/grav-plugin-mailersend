@@ -1,0 +1,58 @@
+name: MailerSend
+slug: mailersend
+type: plugin
+version: 0.1.0
+description: Send email with the MailerSend API
+icon: paper-plane-o
+author:
+  name: Trilby Media
+  email: hello@trilby.media
+homepage: https://github.com/trilbymedia/grav-plugin-mailersend
+demo: http://demo.yoursite.com
+keywords: grav, plugin, etc
+bugs: https://github.com/trilbymedia/grav-plugin-mailersend/issues
+docs: https://github.com/trilbymedia/grav-plugin-mailersend/blob/develop/README.md
+license: MIT
+
+dependencies:
+  - { name: grav, version: '>=1.7.9' }
+
+form:
+  validation: loose
+  fields:
+    enabled:
+      type: toggle
+      label: PLUGIN_ADMIN.PLUGIN_STATUS
+      highlight: 1
+      default: 0
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool
+    api_token:
+      type: text
+      label: PLUGIN_MAILERSEND.API_TOKEN
+      description: Create a token following [this guide](https://www.mailersend.com/help/managing-api-tokens) on MailerSend.com
+      markdown: true
+    defaults_section:
+      type: section
+      title: PLUGIN_MAILERSEND.DEFAULTS
+      underline: true
+      fields:
+        defaults.to:
+          type: array
+          label: PLUGIN_MAILERSEND.TO
+          value_only: true
+        defaults.from:
+          type: array
+          label: PLUGIN_MAILERSEND.FROM
+          value_only: true
+        defaults.cc:
+          type: array
+          label: PLUGIN_MAILERSEND.CC
+          value_only: true
+        defaults.bcc:
+          type: array
+          label: PLUGIN_MAILERSEND.BCC
+          value_only: true

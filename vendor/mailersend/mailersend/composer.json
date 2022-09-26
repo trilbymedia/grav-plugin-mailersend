@@ -1,0 +1,60 @@
+{
+  "name": "mailersend/mailersend",
+  "description": "MailerSend PHP SDK",
+  "type": "library",
+  "license": "MIT",
+  "homepage": "https://github.com/mailersend/mailersend-php",
+  "keywords": [
+    "MailerSend",
+    "mailersend",
+    "email",
+    "transactional"
+  ],
+  "authors": [
+    {
+      "name": "Tautvydas Tijūnaitis",
+      "email": "tautvydas@mailersend.com",
+      "homepage": "https://mailersend.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "ext-json": "*",
+    "php": "^7.4|^8.0",
+    "php-http/client-common": "^2.2",
+    "php-http/discovery": "^1.9",
+    "php-http/httplug": "^2.1",
+    "psr/http-client-implementation": "^1.0",
+    "psr/http-message": "^1.0",
+    "tightenco/collect": "^7.0|^8.0",
+    "beberlei/assert": "^3.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7.5.15 || ^8.4 || ^9.0",
+    "php-http/mock-client": "^1.0",
+    "php-http/message": "^1.0",
+    "mockery/mockery": "^0.9.4",
+    "guzzlehttp/psr7": "^1.5.2",
+    "http-interop/http-factory-guzzle": "^1.0",
+    "php-http/guzzle7-adapter": "^0.1",
+    "friendsofphp/php-cs-fixer": "^2.18"
+  },
+  "autoload": {
+    "psr-4": {
+      "MailerSend\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "MailerSend\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "test": [
+      "@php vendor/bin/phpunit tests/"
+    ],
+    "phpcs": [
+      "@php vendor/bin/php-cs-fixer fix --verbose --diff"
+    ]
+  }
+}
