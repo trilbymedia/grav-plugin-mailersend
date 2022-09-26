@@ -60,8 +60,8 @@ You can use any value from the form via `{{ form.value.<field-attribute> }}` or 
 
 #### YAML Email address formats: 
 
-preferred: `[hello@yoursite.com, Your Name]`
-alternative: `{email: hello@yoursite.com, name: Your Name}`
-discouraged but works: `hello@yoursite.com`
+preferred: `[hello@yoursite.com, Your Name]`  
+alternative: `{email: hello@yoursite.com, name: Your Name}`  
+discouraged but works: `hello@yoursite.com`  
 
 
