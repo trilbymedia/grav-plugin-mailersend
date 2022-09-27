@@ -1,5 +1,5 @@
 # v1.0.1
-## mm/dd/2022
+## 09/27/2022
 
 1. [](#new)
     * added `onMailerSendVars`, `onMailerSendBeforeSend` and `onMailerSendAfterSend` events
