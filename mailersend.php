@@ -2,6 +2,7 @@
 namespace Grav\Plugin;
 
 use Composer\Autoload\ClassLoader;
+use Grav\Common\Data\Data;
 use Grav\Common\Plugin;
 use Grav\Common\Utils;
 use League\HTMLToMarkdown\HtmlConverter;
@@ -57,26 +58,34 @@ class MailerSendPlugin extends Plugin
         if ($this->isAdmin()) {
             return;
         }
-
-        // Enable the main events we are interested in
-        $this->enable([
-            // Put your main events here
-        ]);
     }
 
+    /**
+     * Process `mailersend` form action
+     *
+     * @param Event $event
+     * @return void
+     * @throws MailerSendException
+     * @throws \JsonException
+     * @throws \MailerSend\Exceptions\MailerSendAssertException
+     */
     public function onFormProcessed(Event $event): void
     {
         $form = $event['form'];
         $action = $event['action'];
         $params = $event['params'];
 
-        $vars = [
-            'form' => $form,
-            'page' => $this->grav['page']
-        ];
+
 
         if ($action === 'mailersend') {
-            $params = $this->processParams($params, $vars);
+            $vars = new Data([
+                'form' => $form,
+                'page' => $this->grav['page']
+            ]);
+
+            $this->grav->fireEvent('onMailerSendVars', new Event(['vars' => $vars]));
+            $params = $this->processParams($params, $vars->toArray());
+
             $api_token = $this->config->get('plugins.mailersend.api_token');
             $mailersend = new MailerSend(['api_key' => $api_token]);
             $emailParams = new EmailParams();
@@ -121,14 +130,26 @@ class MailerSendPlugin extends Plugin
                 }
             }
 
+            $this->grav->fireEvent('onMailerSendBeforeSend', new Event(['mailersend' => $mailersend, 'params' => $emailParams]));
+
             try {
                 $mailersend->email->send($emailParams);
             } catch (MailerSendException | JsonException | ClientExceptionInterface $e) {
                 $this->grav['log']->error("Mailersend: " . $e->getMessage());
             }
+
+            $this->grav->fireEvent('onMailerSendAfterSend', new Event(['mailersend' => $mailersend]));
         }
     }
 
+    /**
+     * Iterate over recipient types
+     *
+     * @param string $type  to|from|reply_to|bcc|cc etc
+     * @param array $params params in the mailersend `process:` for definition
+     * @return array List of recipients
+     * @throws \MailerSend\Exceptions\MailerSendAssertException
+     */
     protected function processRecipients(string $type, array $params)
     {
         $recipients = $params[$type] ??
@@ -147,7 +168,14 @@ class MailerSendPlugin extends Plugin
                         $list[] = $this->createRecipient($recipient);
                     }
                 } else {
-                    $list[] = $this->createRecipient($recipients);
+                    if (Utils::contains($recipients, ',')) {
+                        $recipients = array_map('trim', explode(',', $recipients));
+                        foreach ($recipients as $recipient) {
+                            $list[] = $this->createRecipient($recipient);
+                        }
+                    } else {
+                        $list[] = $this->createRecipient($recipients);
+                    }
                 }
             }
         }
@@ -155,14 +183,40 @@ class MailerSendPlugin extends Plugin
         return $list;
     }
 
+    /**
+     * Creates a MailerSend recipient object and suppots the following formats:
+     *
+     * - ['hello@yoursite.com', 'Your Name'] # simple **array**
+     * - 'Your Name <hello@yoursite.com>' # name-addr spec **string**
+     * - ['hello@yoursite.com' => 'Your Name'] # basic associative **array**
+     * - ['email' => 'hello@yoursite.com', 'name' => 'Your Name'] # full associative **array**
+     * - 'hello@yoursite.com' # basic addr-spec **string**
+     * - '<hello@yoursite.com>' # basic angle-addr **string**
+     *
+     * @param $data
+     * @return Recipient
+     * @throws \MailerSend\Exceptions\MailerSendAssertException
+     */
     protected function createRecipient($data): Recipient
     {
         if (is_string($data)) {
-            $email = $data;
-            $name = null;
+            preg_match('/^(.*)\<(.*)\>$/', $data, $matches);
+            if (isset($matches[2])) {
+                $email = trim($matches[2]);
+                $name = trim($matches[1]);
+            } else {
+                $email = $data;
+                $name = null;
+            }
         } elseif (Utils::isAssoc($data)) {
-            $email = $data['email'] ?? $data['mail'] ?? $data['address'] ?? null;
-            $name = $data['name'] ?? null;
+            $first_key = array_key_first($data);
+            if (filter_var($first_key, FILTER_VALIDATE_EMAIL)) {
+                $email = $first_key;
+                $name = $data[$first_key];
+            } else {
+                $email = $data['email'] ?? $data['mail'] ?? $data['address'] ?? null;
+                $name = $data['name'] ?? $data['fullname'] ?? null;
+            }
         } else {
             $email = $data[0] ?? null;
             $name = $data[1] ?? null;
@@ -170,6 +224,13 @@ class MailerSendPlugin extends Plugin
         return new Recipient($email, $name);
     }
 
+    /**
+     * Twig Process each item in the params array
+     *
+     * @param array $params
+     * @param array $vars
+     * @return array
+     */
     protected function processParams(array $params, array $vars = []): array
     {
         $twig = $this->grav['twig'];

@@ -58,10 +58,33 @@ form:
 
 You can use any value from the form via `{{ form.value.<field-attribute> }}` or from Grav's configuration via `{{ config.x.y.z }}`
 
-#### YAML Email address formats: 
+#### Email address formats: 
 
-preferred: `[hello@yoursite.com, Your Name]`
-alternative: `{email: hello@yoursite.com, name: Your Name}`
-discouraged but works: `hello@yoursite.com`
+All these email formats are valid:
 
+**YAML:**
 
+- `[hello@yoursite.com, Your Name]` # simple **array** 
+- `Your Name <hello@yoursite.com>` # name-addr spec **string**  
+- `{hello@yoursite.com: Your Name}` # basic associative **array**  
+- `{email: hello@yoursite.com, name: Your Name}` # full associative **array**   
+- `hello@yoursite.com` # basic addr-spec **string**  
+- `<hello@yoursite.com>` # basic angle-addr **string**   
+
+**PHP:**
+
+- `['hello@yoursite.com', 'Your Name']` # simple **array** 
+- `'Your Name <hello@yoursite.com>'` # name-addr spec **string**  
+- `['hello@yoursite.com' => 'Your Name']` # basic associative **array**  
+- `['email' => 'hello@yoursite.com', 'name' => 'Your Name']` # full associative **array**   
+- `'hello@yoursite.com'` # basic addr-spec **string**  
+- `'<hello@yoursite.com>'` # basic angle-addr **string**
+
+Arrays of these email addresses (or comma-seperated strings) are support for multiple email addresses. For example:
+
+- `[[hello@yoursite.com, Your Name], [contact@yoursite.com, Contact]]`
+- `Your Name <hello@yoursite.com>, Contact <contact@yoursite.com>` or `[Your Name <hello@yoursite.com>, Contact <contact@yoursite.com>]`
+- `[{hello@yoursite.com: Your Name}, {contact@yoursite.com: Contact}]`
+- `[{email: hello@yoursite.com, name: Your Name}, {email: contact@yoursite.com, name: Contact}]`
+- `hello@yoursite.com, contact@yoursite.com` or `[hello@yoursite.com, contact@yoursite.com]`
+- `<hello@yoursite.com>, <contact@yoursite.com>` or `[<hello@yoursite.com>, <contact@yoursite.com>]`

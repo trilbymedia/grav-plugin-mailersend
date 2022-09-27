@@ -1,7 +1,7 @@
 enabled: true
 api_token:
 defaults:
-  to: {email: hello@yoursite.com, name: Your Name}
-  from: {email: hello@yoursite.com, name: Your Name}
+  to: Your Name <hello@yoursite.com>
+  from: Your Name <hello@yoursite.com>
   cc:
   bcc:

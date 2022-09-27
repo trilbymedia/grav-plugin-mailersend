@@ -6,3 +6,4 @@ en:
     FROM: From
     CC: CC
     BCC: BCC
+    EMAIL_FORMAT: "Use the `name-addr` format: `Name <email@address.org>`. Comma separated for multiple addresses"
