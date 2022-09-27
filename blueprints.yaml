@@ -41,18 +41,18 @@ form:
       underline: true
       fields:
         defaults.to:
-          type: array
+          type: text
           label: PLUGIN_MAILERSEND.TO
-          value_only: true
+          help: PLUGIN_MAILERSEND.EMAIL_FORMAT
         defaults.from:
-          type: array
+          type: text
           label: PLUGIN_MAILERSEND.FROM
-          value_only: true
+          help: PLUGIN_MAILERSEND.EMAIL_FORMAT
         defaults.cc:
-          type: array
+          type: text
           label: PLUGIN_MAILERSEND.CC
-          value_only: true
+          help: PLUGIN_MAILERSEND.EMAIL_FORMAT
         defaults.bcc:
-          type: array
+          type: text
           label: PLUGIN_MAILERSEND.BCC
-          value_only: true
+          help: PLUGIN_MAILERSEND.EMAIL_FORMAT
