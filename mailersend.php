@@ -3,6 +3,7 @@ namespace Grav\Plugin;
 
 use Composer\Autoload\ClassLoader;
 use Grav\Common\Data\Data;
+use Grav\Common\Data\ValidationException;
 use Grav\Common\Plugin;
 use Grav\Common\Utils;
 use League\HTMLToMarkdown\HtmlConverter;
@@ -75,8 +76,6 @@ class MailerSendPlugin extends Plugin
         $action = $event['action'];
         $params = $event['params'];
 
-
-
         if ($action === 'mailersend') {
             $vars = new Data([
                 'form' => $form,
@@ -87,6 +86,16 @@ class MailerSendPlugin extends Plugin
             $params = $this->processParams($params, $vars->toArray());
 
             $api_token = $this->config->get('plugins.mailersend.api_token');
+            if (empty($api_token) || strlen($api_token) < 10) {
+                $message = "Invalid or missing Mailersend API token";
+                $this->grav->fireEvent('onFormValidationError', new Event([
+                    'form' => $form,
+                    'message' => $message
+                ]));
+                $event->stopPropagation();
+                return;
+            }
+
             $mailersend = new MailerSend(['api_key' => $api_token]);
             $emailParams = new EmailParams();
 
@@ -168,7 +177,7 @@ class MailerSendPlugin extends Plugin
                         $list[] = $this->createRecipient($recipient);
                     }
                 } else {
-                    if (Utils::contains($recipients, ',')) {
+                    if (is_string($recipients) && Utils::contains($recipients, ',')) {
                         $recipients = array_map('trim', explode(',', $recipients));
                         foreach ($recipients as $recipient) {
                             $list[] = $this->createRecipient($recipient);
