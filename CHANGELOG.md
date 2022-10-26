@@ -1,8 +1,15 @@
 # v1.0.2
+<<<<<<< Updated upstream
 ## mm/dd/2022
 
 1. [](#new)
    * Throw validation exception if API token is missing or invalid
+=======
+## 10/25/2022
+
+1. [](#bugfix)
+   * Fixed an issue with basic array style email addresses
+>>>>>>> Stashed changes
 
 # v1.0.1
 ## 09/27/2022
