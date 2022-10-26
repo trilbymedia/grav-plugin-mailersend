@@ -1,5 +1,5 @@
 # v1.0.2
-## mm/dd/2022
+## 10/25/2022
 
 1. [](#new)
    * Throw validation exception if API token is missing or invalid
