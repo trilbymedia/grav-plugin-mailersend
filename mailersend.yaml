@@ -1,4 +1,5 @@
 enabled: true
+debug: false
 api_token:
 defaults:
   to: Your Name <hello@yoursite.com>

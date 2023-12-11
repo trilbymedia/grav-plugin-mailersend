@@ -141,10 +141,14 @@ class MailerSendPlugin extends Plugin
 
             $this->grav->fireEvent('onMailerSendBeforeSend', new Event(['mailersend' => $mailersend, 'params' => $emailParams]));
 
-            try {
-                $mailersend->email->send($emailParams);
-            } catch (MailerSendException | JsonException | ClientExceptionInterface $e) {
-                $this->grav['log']->error("Mailersend: " . $e->getMessage());
+            if ($this->config->get('plugins.mailersend.debug')) {
+                $this->grav['log']->error("emailParams: " . json_encode($emailParams));
+            } else {
+                try {
+                    $mailersend->email->send($emailParams);
+                } catch (MailerSendException|JsonException|ClientExceptionInterface $e) {
+                    $this->grav['log']->error("Mailersend: ".$e->getMessage());
+                }
             }
 
             $this->grav->fireEvent('onMailerSendAfterSend', new Event(['mailersend' => $mailersend]));

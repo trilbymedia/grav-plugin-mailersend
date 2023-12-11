@@ -1,13 +1,13 @@
 <?php return array(
     'root' => array(
         'name' => 'trilbymedia/mailersend',
-        'pretty_version' => 'dev-main',
-        'version' => 'dev-main',
-        'reference' => '431260e3b471a63ef069aa71946cb923f1e3bea6',
+        'pretty_version' => 'dev-develop',
+        'version' => 'dev-develop',
+        'reference' => 'b409ae521accb6fc285271bff6da46dea5a8dc2b',
         'type' => 'grav-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'dev' => true,
+        'dev' => false,
     ),
     'versions' => array(
         'beberlei/assert' => array(
@@ -266,9 +266,9 @@
             'dev_requirement' => false,
         ),
         'trilbymedia/mailersend' => array(
-            'pretty_version' => 'dev-main',
-            'version' => 'dev-main',
-            'reference' => '431260e3b471a63ef069aa71946cb923f1e3bea6',
+            'pretty_version' => 'dev-develop',
+            'version' => 'dev-develop',
+            'reference' => 'b409ae521accb6fc285271bff6da46dea5a8dc2b',
             'type' => 'grav-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
