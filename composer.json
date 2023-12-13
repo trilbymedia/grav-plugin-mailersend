@@ -18,6 +18,9 @@
     "mailersend/mailersend": "^0.6.0",
     "league/html-to-markdown": "^5.1"
   },
+  "conflict": {
+    "symfony/var-dumper": "*"
+  },
   "autoload": {
     "psr-4": {
       "Grav\\Plugin\\MailerSend\\": "classes/"

@@ -2,6 +2,8 @@ en:
   PLUGIN_MAILERSEND:
     API_TOKEN: API Token
     DEFAULTS: Defaults
+    DEBUG: Debug Mode
+    DEBUG_HELP: No sending, only logging to grav.log
     TO: To/Recipient
     FROM: From
     CC: CC
