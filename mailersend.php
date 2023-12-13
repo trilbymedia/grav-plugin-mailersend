@@ -99,56 +99,73 @@ class MailerSendPlugin extends Plugin
             $mailersend = new MailerSend(['api_key' => $api_token]);
             $emailParams = new EmailParams();
 
-            $recipients = $this->processRecipients('to', $params);
-            $emailParams->setRecipients($recipients);
-            $emailParams->setCc($this->processRecipients('cc', $params));
-            $emailParams->setBcc($this->processRecipients('bcc', $params));
+            try {
+                $recipients = $this->processRecipients('to', $params);
+                $emailParams->setRecipients($recipients);
+                $emailParams->setCc($this->processRecipients('cc', $params));
+                $emailParams->setBcc($this->processRecipients('bcc', $params));
 
-            $emailParams->setSubject($params['subject'] ?? $this->grav['page']->title() ?? $this->config->get('site.title'));
+                $emailParams->setSubject($params['subject'] ?? $this->grav['page']->title() ?? $this->config->get('site.title'));
 
-            $from_all = $this->processRecipients('from', $params);
-            if (is_array($from_all)) {
-                $from = array_shift($from_all)->toArray();
-                $emailParams->setFrom($from['email'])
-                            ->setFromName($from['name']);
-            }
+                $from_all = $this->processRecipients('from', $params);
+                if (is_array($from_all)) {
+                    $from = array_shift($from_all)->toArray();
+                    $emailParams->setFrom($from['email'])
+                                ->setFromName($from['name']);
+                }
 
-            if (isset($params['reply_to'])) {
-                $reply_to = $this->createRecipient($params['reply_to'])->toArray();
-                $emailParams->setReplyTo($reply_to['email'])
-                            ->setReplyToName($reply_to['name']);
-            }
+                if (isset($params['reply_to'])) {
+                    $reply_to = $this->createRecipient($params['reply_to'])->toArray();
+                    $emailParams->setReplyTo($reply_to['email'])
+                                ->setReplyToName($reply_to['name']);
+                }
 
-            if (isset($params['template_id'])) {
-                $to = array_shift($recipients)->toArray();
-                $vars = $params['substitutions'] ?? [];
-                $variables = [new Variable($to['email'], $vars)];
-                $emailParams->setTemplateId($params['template_id'])->setVariables($variables);
+                if (isset($params['template_id'])) {
+                    $to = array_shift($recipients)->toArray();
+                    $vars = $params['substitutions'] ?? [];
+                    $variables = [new Variable($to['email'], $vars)];
+                    $emailParams->setTemplateId($params['template_id'])->setVariables($variables);
 
-            } else {
-                $message = $params['body'] ?? $params['message'] ?? $form->value('message') ?? '';
-                $html = (bool) ($params['html'] ?? false);
-                if ($html) {
-                    $converter = new HtmlConverter();
-                    $html = html_entity_decode($message);
-                    $text = $converter->convert($html);
-                    $emailParams->setHtml($html);
-                    $emailParams->setText($text);
                 } else {
-                    $emailParams->setText($message);
+                    $message = $params['body'] ?? $params['message'] ?? $form->value('message') ?? '';
+                    $html = (bool) ($params['html'] ?? false);
+                    if ($html) {
+                        $converter = new HtmlConverter();
+                        $html = html_entity_decode($message);
+                        $text = $converter->convert($html);
+                        $emailParams->setHtml($html);
+                        $emailParams->setText($text);
+                    } else {
+                        $emailParams->setText($message);
+                    }
                 }
-            }
 
-            $this->grav->fireEvent('onMailerSendBeforeSend', new Event(['mailersend' => $mailersend, 'params' => $emailParams]));
+                $this->grav->fireEvent('onMailerSendBeforeSend', new Event(['mailersend' => $mailersend, 'params' => $emailParams]));
 
-            if ($this->config->get('plugins.mailersend.debug')) {
-                $this->grav['log']->error("emailParams: " . json_encode($emailParams));
-            } else {
-                try {
-                    $mailersend->email->send($emailParams);
-                } catch (MailerSendException|JsonException|ClientExceptionInterface $e) {
-                    $this->grav['log']->error("Mailersend: ".$e->getMessage());
+                if ($this->config->get('plugins.mailersend.debug')) {
+                    $data = [
+                        'from' => $emailParams->getFrom(),
+                        'from_name' => $emailParams->getFromName(),
+                        'reply_to' => $emailParams->getReplyTo(),
+                        'reply_to_name' => $emailParams->getReplyToName(),
+                        'recipients' => $emailParams->getRecipients(),
+                        'subject' => $emailParams->getSubject(),
+                        'html' => $emailParams->getHtml(),
+                        'text' => $emailParams->getText(),
+                    ];
+
+                    $this->grav['log']->error("emailParams: " . json_encode($data));
+                } else {
+                        $mailersend->email->send($emailParams);
                 }
+
+            } catch (\Exception $e) {
+                $this->grav->fireEvent('onFormValidationError', new Event([
+                    'form' => $form,
+                    'message' => $e->getMessage()
+                ]));
+
+                $event->stopPropagation();
             }
 
             $this->grav->fireEvent('onMailerSendAfterSend', new Event(['mailersend' => $mailersend]));
