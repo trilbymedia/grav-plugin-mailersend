@@ -25,6 +25,7 @@ This will install the MailerSend plugin into your `/user/plugins`-directory with
 ```yaml
 enabled: true
 api_token: <YOUR API TOKEN>
+debug: false
 defaults:
   to: 
   from: 
