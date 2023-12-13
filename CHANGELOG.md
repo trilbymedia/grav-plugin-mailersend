@@ -1,3 +1,11 @@
+# v1.0.3
+## 12/13/2023
+
+1. [](#new)
+   * Added a new 'debug' mode to log rather than send
+1. [](#bugfix)
+   * Better handling of email format errors
+
 # v1.0.2
 ## 10/25/2022
 
