@@ -1,7 +1,7 @@
 name: MailerSend
 slug: mailersend
 type: plugin
-version: 1.0.3
+version: 1.0.4
 description: Send email with the MailerSend API
 icon: paper-plane-o
 author:
@@ -13,6 +13,9 @@ keywords: grav, plugin, etc
 bugs: https://github.com/trilbymedia/grav-plugin-mailersend/issues
 docs: https://github.com/trilbymedia/grav-plugin-mailersend/blob/develop/README.md
 license: MIT
+
+compatibility:
+  grav: ['1.7', '2.0']
 
 dependencies:
   - { name: grav, version: '>=1.7.9' }
