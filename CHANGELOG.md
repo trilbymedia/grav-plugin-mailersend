@@ -1,3 +1,10 @@
+# v1.0.5
+## 05/06/2026
+
+1. [](#bugfix)
+    * Stop shipping a bundled `psr/log` 1.x — declare `replace: psr/log: '*'` in `composer.json` so the plugin uses the host Grav's psr/log instead. Fixes a fatal `E_COMPILE_ERROR` (`AbstractLogger::emergency` signature incompatible with `LoggerInterface::emergency`) when the host ships `psr/log` 3.x (Grav 2.0+, or any 1.7 install where another plugin pulls in 3.x).
+    * Required to make the 1.7/2.0 compatibility flag added in 1.0.4 actually accurate.
+
 # v1.0.4
 ## 05/01/2026
 
