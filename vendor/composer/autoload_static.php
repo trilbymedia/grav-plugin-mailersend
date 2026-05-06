@@ -20,11 +20,11 @@ class ComposerStaticInit6fbf423bd6f63eb454d1e6efef4d22c5
     );
 
     public static $prefixLengthsPsr4 = array (
-        'T' => 
+        'T' =>
         array (
             'Tightenco\\Collect\\' => 18,
         ),
-        'S' => 
+        'S' =>
         array (
             'Symfony\\Polyfill\\Php80\\' => 23,
             'Symfony\\Polyfill\\Php73\\' => 23,
@@ -35,22 +35,21 @@ class ComposerStaticInit6fbf423bd6f63eb454d1e6efef4d22c5
             'Symfony\\Component\\OptionsResolver\\' => 34,
             'Symfony\\Component\\HttpClient\\' => 29,
         ),
-        'P' => 
+        'P' =>
         array (
-            'Psr\\Log\\' => 8,
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Http\\Client\\' => 16,
             'Psr\\Container\\' => 14,
         ),
-        'M' => 
+        'M' =>
         array (
             'MailerSend\\' => 11,
         ),
-        'L' => 
+        'L' =>
         array (
             'League\\HTMLToMarkdown\\' => 22,
         ),
-        'H' => 
+        'H' =>
         array (
             'Http\\Promise\\' => 13,
             'Http\\Message\\' => 13,
@@ -58,112 +57,108 @@ class ComposerStaticInit6fbf423bd6f63eb454d1e6efef4d22c5
             'Http\\Client\\Common\\' => 19,
             'Http\\Client\\' => 12,
         ),
-        'G' => 
+        'G' =>
         array (
             'Grav\\Plugin\\MailerSend\\' => 23,
         ),
-        'C' => 
+        'C' =>
         array (
             'Clue\\StreamFilter\\' => 18,
         ),
-        'A' => 
+        'A' =>
         array (
             'Assert\\' => 7,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Tightenco\\Collect\\' => 
+        'Tightenco\\Collect\\' =>
         array (
             0 => __DIR__ . '/..' . '/tightenco/collect/src/Collect',
         ),
-        'Symfony\\Polyfill\\Php80\\' => 
+        'Symfony\\Polyfill\\Php80\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
         ),
-        'Symfony\\Polyfill\\Php73\\' => 
+        'Symfony\\Polyfill\\Php73\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php73',
         ),
-        'Symfony\\Polyfill\\Mbstring\\' => 
+        'Symfony\\Polyfill\\Mbstring\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
         ),
-        'Symfony\\Contracts\\Service\\' => 
+        'Symfony\\Contracts\\Service\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/service-contracts',
         ),
-        'Symfony\\Contracts\\HttpClient\\' => 
+        'Symfony\\Contracts\\HttpClient\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/http-client-contracts',
         ),
-        'Symfony\\Component\\VarDumper\\' => 
+        'Symfony\\Component\\VarDumper\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/var-dumper',
         ),
-        'Symfony\\Component\\OptionsResolver\\' => 
+        'Symfony\\Component\\OptionsResolver\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/options-resolver',
         ),
-        'Symfony\\Component\\HttpClient\\' => 
+        'Symfony\\Component\\HttpClient\\' =>
         array (
             0 => __DIR__ . '/..' . '/symfony/http-client',
         ),
-        'Psr\\Log\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
-        ),
-        'Psr\\Http\\Message\\' => 
+        'Psr\\Http\\Message\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/http-factory/src',
             1 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
-        'Psr\\Http\\Client\\' => 
+        'Psr\\Http\\Client\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/http-client/src',
         ),
-        'Psr\\Container\\' => 
+        'Psr\\Container\\' =>
         array (
             0 => __DIR__ . '/..' . '/psr/container/src',
         ),
-        'MailerSend\\' => 
+        'MailerSend\\' =>
         array (
             0 => __DIR__ . '/..' . '/mailersend/mailersend/src',
         ),
-        'League\\HTMLToMarkdown\\' => 
+        'League\\HTMLToMarkdown\\' =>
         array (
             0 => __DIR__ . '/..' . '/league/html-to-markdown/src',
         ),
-        'Http\\Promise\\' => 
+        'Http\\Promise\\' =>
         array (
             0 => __DIR__ . '/..' . '/php-http/promise/src',
         ),
-        'Http\\Message\\' => 
+        'Http\\Message\\' =>
         array (
             0 => __DIR__ . '/..' . '/php-http/message/src',
             1 => __DIR__ . '/..' . '/php-http/message-factory/src',
         ),
-        'Http\\Discovery\\' => 
+        'Http\\Discovery\\' =>
         array (
             0 => __DIR__ . '/..' . '/php-http/discovery/src',
         ),
-        'Http\\Client\\Common\\' => 
+        'Http\\Client\\Common\\' =>
         array (
             0 => __DIR__ . '/..' . '/php-http/client-common/src',
         ),
-        'Http\\Client\\' => 
+        'Http\\Client\\' =>
         array (
             0 => __DIR__ . '/..' . '/php-http/httplug/src',
         ),
-        'Grav\\Plugin\\MailerSend\\' => 
+        'Grav\\Plugin\\MailerSend\\' =>
         array (
             0 => __DIR__ . '/../..' . '/classes',
         ),
-        'Clue\\StreamFilter\\' => 
+        'Clue\\StreamFilter\\' =>
         array (
             0 => __DIR__ . '/..' . '/clue/stream-filter/src',
         ),
-        'Assert\\' => 
+        'Assert\\' =>
         array (
             0 => __DIR__ . '/..' . '/beberlei/assert/lib/Assert',
         ),

@@ -21,6 +21,9 @@
   "conflict": {
     "symfony/var-dumper": "*"
   },
+  "replace": {
+    "psr/log": "*"
+  },
   "autoload": {
     "psr-4": {
       "Grav\\Plugin\\MailerSend\\": "classes/"
