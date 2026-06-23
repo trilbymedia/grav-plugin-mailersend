@@ -1,3 +1,14 @@
+# v1.0.6
+## 06/23/2026
+
+1. [](#improved)
+    * `debug` mode now writes full send diagnostics (composed email, API response, and any warnings) to a dedicated `logs/mailersend.log` instead of `grav.log`, and **still sends the email**. Previously `debug` was a silent dry-run that logged to `grav.log` at error level and never sent.
+    * Log MailerSend warnings such as `ALL_SUPPRESSED` / `hard_bounced` — these return a `202` but mean the email was NOT actually delivered, which was previously invisible.
+1. [](#new)
+    * Added a `dry_run` option (and admin toggle) for true no-send testing, preserving the old "log but don't send" behaviour separately from `debug`.
+1. [](#bugfix)
+    * Send exceptions are no longer silently swallowed — the real failure reason is now logged to `grav.log` (and `mailersend.log` when debug is on) in addition to being passed to the form validation error.
+
 # v1.0.5
 ## 05/06/2026
 

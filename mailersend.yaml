@@ -1,5 +1,6 @@
 enabled: true
 debug: false
+dry_run: false
 api_token:
 defaults:
   to: Your Name <hello@yoursite.com>
