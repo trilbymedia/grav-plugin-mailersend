@@ -3,7 +3,9 @@ en:
     API_TOKEN: API Token
     DEFAULTS: Defaults
     DEBUG: Debug Mode
-    DEBUG_HELP: No sending, only logging to grav.log
+    DEBUG_HELP: Log full send diagnostics (composed email, API response and warnings) to logs/mailersend.log. Email is still sent unless Dry Run is also enabled.
+    DRY_RUN: Dry Run
+    DRY_RUN_HELP: Do not actually send email, only log what would have been sent (requires Debug Mode to log).
     TO: To/Recipient
     FROM: From
     CC: CC

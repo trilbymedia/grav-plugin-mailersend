@@ -1,7 +1,7 @@
 name: MailerSend
 slug: mailersend
 type: plugin
-version: 1.0.5
+version: 1.0.6
 description: Send email with the MailerSend API
 icon: paper-plane-o
 author:
@@ -38,6 +38,17 @@ form:
       label: PLUGIN_MAILERSEND.DEBUG
       help: PLUGIN_MAILERSEND.DEBUG_HELP
       highlight: 1
+      default: 0
+      options:
+        1: PLUGIN_ADMIN.ENABLED
+        0: PLUGIN_ADMIN.DISABLED
+      validate:
+        type: bool
+    dry_run:
+      type: toggle
+      label: PLUGIN_MAILERSEND.DRY_RUN
+      help: PLUGIN_MAILERSEND.DRY_RUN_HELP
+      highlight: 0
       default: 0
       options:
         1: PLUGIN_ADMIN.ENABLED
