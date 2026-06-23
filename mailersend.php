@@ -77,6 +77,8 @@ class MailerSendPlugin extends Plugin
         $params = $event['params'];
 
         if ($action === 'mailersend') {
+            $this->debugLog('onFormProcessed: mailersend action triggered for form "' . $form->name() . '"');
+
             $vars = new Data([
                 'form' => $form,
                 'page' => $this->grav['page']
@@ -142,7 +144,10 @@ class MailerSendPlugin extends Plugin
 
                 $this->grav->fireEvent('onMailerSendBeforeSend', new Event(['mailersend' => $mailersend, 'params' => $emailParams]));
 
-                if ($this->config->get('plugins.mailersend.debug')) {
+                $debug = (bool) $this->config->get('plugins.mailersend.debug');
+                $dry_run = (bool) $this->config->get('plugins.mailersend.dry_run');
+
+                if ($debug) {
                     $data = [
                         'from' => $emailParams->getFrom(),
                         'from_name' => $emailParams->getFromName(),
@@ -154,12 +159,38 @@ class MailerSendPlugin extends Plugin
                         'text' => $emailParams->getText(),
                     ];
 
-                    $this->grav['log']->error("emailParams: " . json_encode($data));
+                    $this->debugLog('Composed email: ' . json_encode($data));
+                }
+
+                if ($dry_run) {
+                    // Dry-run: do not actually send, just record that we would have
+                    $this->debugLog('DRY-RUN enabled, email NOT sent.');
                 } else {
-                        $mailersend->email->send($emailParams);
+                    $response = $mailersend->email->send($emailParams);
+
+                    if ($debug) {
+                        $status = is_array($response) ? ($response['status_code'] ?? null) : null;
+                        $message_id = is_array($response) ? ($response['headers']['x-message-id'][0] ?? null) : null;
+                        $this->debugLog('API response: status=' . json_encode($status) . ' message_id=' . json_encode($message_id));
+
+                        // Surface any MailerSend warnings (e.g. ALL_SUPPRESSED / hard_bounced),
+                        // which return a 202 but mean the email was NOT actually delivered.
+                        $warnings = is_array($response) ? ($response['body']['warnings'] ?? null) : null;
+                        if (!empty($warnings)) {
+                            $this->debugLog('API warnings: ' . json_encode($warnings));
+                        }
+                    }
                 }
 
             } catch (\Exception $e) {
+                // Always record the real reason a send failed so it is not silently swallowed
+                $error = 'MailerSend send failed: ' . get_class($e) . ' - ' . $e->getMessage();
+                $this->grav['log']->error($error);
+                $this->debugLog($error);
+                if (method_exists($e, 'getResponse')) {
+                    $this->debugLog('Error response: ' . json_encode($e->getResponse()));
+                }
+
                 $this->grav->fireEvent('onFormValidationError', new Event([
                     'form' => $form,
                     'message' => $e->getMessage()
@@ -170,6 +201,31 @@ class MailerSendPlugin extends Plugin
 
             $this->grav->fireEvent('onMailerSendAfterSend', new Event(['mailersend' => $mailersend]));
         }
+    }
+
+    /**
+     * Write a diagnostic line to logs/mailersend.log when debug is enabled.
+     *
+     * Keeps MailerSend diagnostics out of the noisy grav.log and only writes
+     * anything while `debug` is turned on, so it is silent in normal operation.
+     *
+     * @param string $message
+     * @return void
+     */
+    protected function debugLog(string $message): void
+    {
+        if (!$this->config->get('plugins.mailersend.debug')) {
+            return;
+        }
+
+        static $logger = null;
+        if ($logger === null) {
+            $logfile = $this->grav['locator']->findResource('log://mailersend.log', true, true);
+            $logger = new \Monolog\Logger('mailersend');
+            $logger->pushHandler(new \Monolog\Handler\StreamHandler($logfile, \Monolog\Logger::DEBUG));
+        }
+
+        $logger->info($message);
     }
 
     /**
