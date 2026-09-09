@@ -1,14 +1,13 @@
 name: MailerSend
 slug: mailersend
 type: plugin
-version: 1.0.6
+version: 1.0.7
 description: Send email with the MailerSend API
 icon: paper-plane-o
 author:
   name: Trilby Media
   email: hello@trilby.media
 homepage: https://github.com/trilbymedia/grav-plugin-mailersend
-demo: http://demo.yoursite.com
 keywords: grav, plugin, etc
 bugs: https://github.com/trilbymedia/grav-plugin-mailersend/issues
 docs: https://github.com/trilbymedia/grav-plugin-mailersend/blob/develop/README.md
